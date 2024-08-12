@@ -7,6 +7,10 @@ vim.cmd("colorscheme kanagawa")
 vim.cmd("set spelllang=en_uk")
 vim.cmd("set spell")
 
+-- some key mappings for buffer navigation
+vim.keymap.set('n', 'gn', '<cmd>bnext<cr>')
+vim.keymap.set('n', 'gp', '<cmd>bprev<cr>')
+
 -- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
