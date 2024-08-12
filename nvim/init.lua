@@ -1,5 +1,11 @@
 require("config.lazy")
+
+-- set colour scheme 
 vim.cmd("colorscheme kanagawa")
+
+-- enable spell checker
+vim.cmd("set spelllang=en_uk")
+vim.cmd("set spell")
 
 -- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
