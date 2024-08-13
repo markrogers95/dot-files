@@ -10,6 +10,7 @@ vim.cmd("set spell")
 -- some key mappings for buffer navigation
 vim.keymap.set('n', 'gn', '<cmd>bnext<cr>')
 vim.keymap.set('n', 'gp', '<cmd>bprev<cr>')
+vim.keymap.set('n', 'gc', '<cmd>bd<cr>')
 
 -- note: diagnostics are not exclusive to lsp servers
 -- so these can be global keybindings
