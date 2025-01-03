@@ -1,6 +1,6 @@
 require("config.lazy")
 
--- set colour scheme 
+-- set colour scheme
 vim.cmd("colorscheme kanagawa")
 
 -- enable spell checker
@@ -51,38 +51,35 @@ require('mason-lspconfig').setup({
   },
 })
 
-require('lspconfig').yamlls.setup({})
+require('lspconfig').yamlls.setup({
+  settings = {
+    yamlls = function()
+      LazyVim.lsp.on_attach(function(client, buffer)
+        if vim.bo[buffer].filetype == "helm" then
+          vim.schedule(function()
+            vim.cmd("LspStop ++force yamlls")
+          end)
+        end
+      end, "yamlls")
+    end,
+  },
+})
 require('lspconfig').vimls.setup({})
 require('lspconfig').lua_ls.setup({
   settings = {
       Lua = {
-        completion = {
-          callSnippet = 'Replace',
-        },
-        diagnostics = {
-	  globals = {'vim'}
-	},
+       completion = {
+        callSnippet = 'Replace',
       },
+      diagnostics = {
+	    globals = {'vim'}
+	  },
     },
+  },
 })
 
 local util = require('lspconfig/util')
 require('lspconfig').gopls.setup({
-  root_dir = function(fname)
-      local gowork_or_gomod_dir = util.root_pattern('go.work', 'go.mod')(fname)
-      if gowork_or_gomod_dir then
-        return gowork_or_gomod_dir
-      end
-
-      local plzconfig_dir = util.root_pattern('.plzconfig')(fname)
-      if plzconfig_dir and vim.fs.basename(plzconfig_dir) == 'src' then
-        vim.env.GOPATH = string.format('%s:%s/plz-out/go', vim.fs.dirname(plzconfig_dir), plzconfig_dir)
-        vim.env.GO111MODULE = 'off'
-        return plzconfig_dir .. '/vault' -- hack to work around slow monorepo
-      end
-
-      return vim.fn.getcwd()
-    end,
   settings = {
     gopls = {
       completeUnimported = true,
@@ -106,22 +103,12 @@ require('lspconfig').pyright.setup({
       useLibraryCodeForTypes = true,
       typeCheckingMode = 'off',
       extraPaths = {
-        '/home/mrogers/repos/src',
-        '/home/mrogers/repos/src/plz-out/gen',
+        '/home/mrogers/repos',
        },
      },
    },
   },
 })
-
-require('lspconfig.configs').please = {
-  default_config = {
-    cmd = { 'plz', 'tool', 'lps' },
-    filetypes = { 'please' },
-    root_dir = util.root_pattern('.plzconfig'),
-  },
-}
-require('lspconfig').please.setup({})
 
 local cmp = require('cmp')
 

@@ -7,4 +7,5 @@ return {
   {'L3MON4D3/LuaSnip'},
   {'ray-x/guihua.lua', run = 'cd lua/fzy && make'},
   {'ray-x/navigator.lua'},
+  {'towolf/vim-helm'},
 }
